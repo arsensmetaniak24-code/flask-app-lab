@@ -1,23 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <!-- About Me Section -->
     <section id="about" class="mb-5">
         <h2 class="border-bottom pb-2 mb-3">About Me</h2>
         <div class="card shadow-sm border-0 bg-body-tertiary">
             <div class="card-body p-4">
-                <p class="lead text-secondary mb-3">
-                    Hi! I'm <strong>Arsen Smetaniak</strong>, a software engineering student, indie game developer, and creator who loves crafting engaging gameplay and robust applications.
-                </p>
-                <p class="mb-3">
-                    I am currently pursuing my <strong>Bachelor's degree in Software Engineering</strong> at <em>Vasyl Stefanyk Carpathian National University</em> (2024–2028), having previously graduated from <em>Lyceum "Intellect"</em> (2020–2024). My academic foundation combines solid theoretical principles with real-world engineering practices.
-                </p>
-                <p class="mb-0">
-                    As an indie developer, I specialize in the <strong>Godot Engine</strong> (GDScript, GDShader) and backend development with <strong>Java, Spring, and SQL</strong>. I have authored and published games including <em>Our Squishy Hero</em> and <em>Our Perfect Spot</em>, along with developer tools such as the <em>AreaOfSight2D</em> plugin. I take pride in my strong problem-solving capabilities, creativity, adaptability, and dedication to effective teamwork.
-                </p>
+                <div class="row align-items-center g-4">
+                    <div class="col-md-4 text-center">
+                        <img src="{{ url_for('static', filename=avatar if avatar else 'images/icon.png') }}" alt="Arsen Smetaniak Avatar" class="img-fluid rounded-circle shadow-sm border border-3 border-white" style="max-width: 220px; aspect-ratio: 1/1; object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <p class="lead text-secondary mb-3">
+                            Hi! I'm <strong>Arsen Smetaniak</strong>, a software engineering student, indie game developer, and creator who loves crafting engaging gameplay and robust applications.
+                        </p>
+                        <p class="mb-3">
+                            I am currently pursuing my <strong>Bachelor's degree in Software Engineering</strong> at <em>Vasyl Stefanyk Carpathian National University</em> (2024–2028), having previously graduated from <em>Lyceum "Intellect"</em> (2020–2024). My academic foundation combines solid theoretical principles with real-world engineering practices.
+                        </p>
+                        <p class="mb-0">
+                            As an indie developer, I specialize in the <strong>Godot Engine</strong> (GDScript, GDShader) and backend development with <strong>Java, Spring, and SQL</strong>. I have authored and published games including <em>Our Squishy Hero</em> and <em>Our Perfect Spot</em>, along with developer tools such as the <em>AreaOfSight2D</em> plugin. I take pride in my strong problem-solving capabilities, creativity, adaptability, and dedication to effective teamwork.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Education Section -->
     <section id="education" class="mb-5">
         <h2 class="border-bottom pb-2 mb-3">Education</h2>
         <div class="row g-3">
@@ -37,6 +46,7 @@
         </div>
     </section>
 
+    <!-- Skills Section -->
     <section id="skills" class="mb-5">
         <h2 class="border-bottom pb-2 mb-3">Skills</h2>
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-3">
@@ -52,6 +62,7 @@
         </div>
     </section>
 
+    <!-- Technologies Section -->
     <section id="technologies" class="mb-5">
         <h2 class="border-bottom pb-2 mb-3">Technologies</h2>
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
@@ -67,16 +78,18 @@
         </div>
     </section>
 
+    <!-- Projects Section (Looped Carousel) -->
     <section id="projects" class="mb-5">
         <h2 class="border-bottom pb-2 mb-4">Projects</h2>
         <div id="projectsCarousel" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="4000">
-
+            <!-- Carousel Indicators -->
             <div class="carousel-indicators">
                 {% for project in projects %}
                 <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}" aria-current="{% if loop.first %}true{% else %}false{% endif %}" aria-label="{{ project.name }}"></button>
                 {% endfor %}
             </div>
 
+            <!-- Carousel Items -->
             <div class="carousel-inner bg-dark">
                 {% for project in projects %}
                 <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -96,6 +109,7 @@
                 {% endfor %}
             </div>
 
+            <!-- Controls -->
             <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>

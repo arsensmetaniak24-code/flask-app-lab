@@ -8,7 +8,7 @@ def resume():
 
     education = [
         {
-            "degree" : "Bechelor's degree of Software Engineering",
+            "degree" : "Bechelor's degree in Software Engineering",
             "place" : "Vasyl Stefanyk Carpathian National University",
             "year" : "2024-2028"
         },
@@ -47,7 +47,8 @@ def resume():
         education=education,
         skills=skills,
         technologies=technologies,
-        projects=projects)
+        projects=projects,
+        avatar='images/icon.png')
 
 @app.route('/contacts')
 def contacts():
