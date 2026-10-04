@@ -1,10 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <section id="about" class="mb-5">
+        <h2 class="border-bottom pb-2 mb-3">About Me</h2>
+        <div class="card shadow-sm border-0 bg-body-tertiary">
+            <div class="card-body p-4">
+                <p class="lead text-secondary mb-3">
+                    Hi! I'm <strong>Arsen Smetaniak</strong>, a software engineering student, indie game developer, and creator who loves crafting engaging gameplay and robust applications.
+                </p>
+                <p class="mb-3">
+                    I am currently pursuing my <strong>Bachelor's degree in Software Engineering</strong> at <em>Vasyl Stefanyk Carpathian National University</em> (2024–2028), having previously graduated from <em>Lyceum "Intellect"</em> (2020–2024). My academic foundation combines solid theoretical principles with real-world engineering practices.
+                </p>
+                <p class="mb-0">
+                    As an indie developer, I specialize in the <strong>Godot Engine</strong> (GDScript, GDShader) and backend development with <strong>Java, Spring, and SQL</strong>. I have authored and published games including <em>Our Squishy Hero</em> and <em>Our Perfect Spot</em>, along with developer tools such as the <em>AreaOfSight2D</em> plugin. I take pride in my strong problem-solving capabilities, creativity, adaptability, and dedication to effective teamwork.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="mb-5">
+        <h2 class="border-bottom pb-2 mb-3">Education</h2>
+        <div class="row g-3">
+            {% for item in education %}
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm border-0 bg-body-tertiary">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title fw-bold text-primary mb-0">{{ item.degree }}</h5>
+                            <span class="badge bg-secondary ms-2">{{ item.year }}</span>
+                        </div>
+                        <p class="card-text text-muted mb-0">{{ item.place }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="skills" class="mb-5">
+        <h2 class="border-bottom pb-2 mb-3">Skills</h2>
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-3">
+            {% for skill in skills %}
+            <div class="col">
+                <div class="card h-100 text-center shadow-sm border-0 bg-body-tertiary">
+                    <div class="card-body p-3 d-flex align-items-center justify-content-center">
+                        <span class="fw-semibold">{{ skill }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="technologies" class="mb-5">
+        <h2 class="border-bottom pb-2 mb-3">Technologies</h2>
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-6 g-3">
+            {% for tech in technologies %}
+            <div class="col">
+                <div class="card h-100 text-center shadow-sm border-primary-subtle bg-light">
+                    <div class="card-body p-3 d-flex align-items-center justify-content-center">
+                        <span class="fw-semibold text-primary">{{ tech }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="projects" class="mb-5">
+        <h2 class="border-bottom pb-2 mb-4">Projects</h2>
+        <div id="projectsCarousel" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="4000">
+
+            <div class="carousel-indicators">
+                {% for project in projects %}
+                <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}" aria-current="{% if loop.first %}true{% else %}false{% endif %}" aria-label="{{ project.name }}"></button>
+                {% endfor %}
+            </div>
+
+            <div class="carousel-inner bg-dark">
+                {% for project in projects %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="position-relative" style="height: 480px;">
+                        <img src="{{ url_for('static', filename='images/' ~ project.image) }}" class="d-block w-100 h-100" alt="{{ project.name }}" style="object-fit: cover; opacity: 0.85;">
+                        <div class="carousel-caption d-flex flex-column justify-content-end align-items-center pb-5" style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 75%); inset: 0;">
+                            <div class="p-3 text-center" style="max-width: 600px;">
+                                <h3 class="fw-bold text-white mb-2">{{ project.name }}</h3>
+                                <p class="text-light mb-3">{{ project.description }}</p>
+                                <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary px-4 py-2 fw-semibold">
+                                    Explore Project &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+{% endblock %}
