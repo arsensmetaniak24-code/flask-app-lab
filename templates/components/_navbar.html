@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('resume') }}">Portfolio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ url_for('resume') }}" id="resumeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Resume
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="resumeDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}">All Resume</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#about">About Me</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#education">Experience</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#skills">Education</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#technologies">Skills</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#projects">Projects</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contacts') }}">Contacts</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
