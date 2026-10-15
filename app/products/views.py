@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, abort
 
 from .. import app
 from . import products_bp
@@ -34,4 +34,4 @@ def product_detail(product_id):
     for product in products:
         if product["id"] == product_id:
             return render_template("product.html", title="Product", product=product)
-    return None
+    abort(404)
