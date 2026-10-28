@@ -47,3 +47,9 @@ def profile():
     else:
         flash("You need to log in first", "danger")
         return redirect(url_for("users.login"))
+
+@users_bp.route("/logout", methods=["POST"])
+def logout():
+    session.pop("username", None)
+    flash("You have been logged out", "success")
+    return redirect(url_for("users.login"))

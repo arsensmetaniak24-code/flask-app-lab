@@ -8,6 +8,9 @@
         </div>
         <div class="card-body p-4 bg-body-tertiary">
             <p class="text-muted mb-0">Here you can view your information and log out.</p>
+            <form class="mt-3" action="{{ url_for('users.logout') }}" method="post">
+                <button type="submit" class="btn btn-danger">Log Out</button>
+            </form>
         </div>
     </div>
 </section>
