@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 from flask import Flask
+from pathlib import Path
 
-load_dotenv("../.flaskenv")
+load_dotenv(Path(__file__).parent.parent / ".flaskenv")
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
