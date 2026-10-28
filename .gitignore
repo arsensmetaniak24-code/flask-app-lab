@@ -1,2 +1,6 @@
 .venv/
 .idea/
+.mcp.json
+.claude
+lab.pdf
+__pycache__/
