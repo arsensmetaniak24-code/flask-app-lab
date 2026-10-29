@@ -4,3 +4,5 @@
 .claude
 lab.pdf
 __pycache__/
+data/
+app/products/static/uploads/
