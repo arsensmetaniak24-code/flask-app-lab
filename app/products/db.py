@@ -1,3 +1,4 @@
+from pathlib import Path
 from flask import current_app
 from tinydb import TinyDB
 from datetime import datetime
@@ -27,9 +28,7 @@ def seed_products():
         ])
 
 def get_products_table():
-    path = current_app.config["PRODUCTS_DB"]
-    if path.exists():
-        db = TinyDB(path)
-        return db.table("products")
-    else:
-        raise FileNotFoundError(f"Products database file not found at {path}")
+    path = Path(current_app.config["PRODUCTS_DB"])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    db = TinyDB(path)
+    return db.table("products")
