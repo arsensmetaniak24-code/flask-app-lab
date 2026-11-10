@@ -1,17 +1,23 @@
-# Lab 4: Request object, sessions and cookies
+# Lab 5: WTForms
 
-A Flask app with session-based login, flash messages, cookie management and a color theme switcher. All of it lives in the `users` blueprint.
+A Flask app with forms built on Flask-WTF. The contact form validates its fields, is protected from CSRF, writes every message to `logs/contacts.log` and follows the Post/Redirect/Get pattern. The `products` blueprint stores products in TinyDB (`data/products.json`) and supports adding, viewing, editing and deleting them, with image uploads saved to `app/products/static/uploads/`. All form fields are rendered with a shared macro that shows the field's errors, and every action shows a flash message.
 
 ## Screenshots
 
-### Login page
-![Login page](.github/assets/lab4/screen-login-page.png)
+### Contact form validation
+![Contact form validation](.github/assets/lab5/form_fail.png)
 
-### Profile page
-![Profile page](.github/assets/lab4/screen-profile-page.png)
+### Contact form submitted
+![Contact form submitted](.github/assets/lab5/form_submission.png)
 
-### Cookie management
-![Cookie management](.github/assets/lab4/screen-cookie-management.png)
+### Products page
+![Products page](.github/assets/lab5/products_page.png)
 
-### Theme switching
-![Theme switching](.github/assets/lab4/screen-theme.png)
+### Product page
+![Product page](.github/assets/lab5/product_page.png)
+
+### Product form validation
+![Product form validation](.github/assets/lab5/product_invalid.png)
+
+### Delete confirmation
+![Delete confirmation](.github/assets/lab5/delete_dialog.png)
