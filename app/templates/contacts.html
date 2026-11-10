@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'components/_render_field.html' import render_field %}
 
 {% block content %}
 <section id="contacts" class="py-2">
@@ -74,35 +75,27 @@
                     <h4 class="card-title fw-bold mb-3">Send a Message</h4>
                     <p class="text-muted small mb-4">Leave a message below and I will get back to you as soon as possible.</p>
 
-                    <form action="#" method="POST" onsubmit="event.preventDefault();">
-                        <div class="row g-3">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        <div class="row gx-3">
                             <div class="col-md-6">
-                                <label for="senderName" class="form-label fw-semibold">Your Name <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control" id="senderName" placeholder="John Doe" required>
-                                </div>
+                                {{ render_field(form.name, placeholder='John Doe') }}
                             </div>
 
                             <div class="col-md-6">
-                                <label for="senderEmail" class="form-label fw-semibold">Your Email <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control" id="senderEmail" placeholder="john@example.com" required>
-                                </div>
+                                {{ render_field(form.email, placeholder='john@example.com') }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ render_field(form.phone, placeholder='+380991234567') }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ render_field(form.subject) }}
                             </div>
 
                             <div class="col-12">
-                                <label for="messageSubject" class="form-label fw-semibold">Subject</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-chat-left-text"></i></span>
-                                    <input type="text" class="form-control" id="messageSubject" placeholder="Project Inquiry / Feedback">
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="messageBody" class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="messageBody" rows="5" placeholder="Write your message here..." required></textarea>
+                                {{ render_field(form.message, rows=5, placeholder='Write your message here...') }}
                             </div>
 
                             <div class="col-12 pt-2">

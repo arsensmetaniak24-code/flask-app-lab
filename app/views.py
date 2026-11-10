@@ -58,8 +58,8 @@ def contacts():
     if form.validate_on_submit():
         try:
             logger.info(f"Received message from {form.name.data} ({form.email.data}, {form.phone.data}). Subject: '{form.subject.data}'. Message: '{form.message.data}'")
-        except Exception as e:
-            flash(f"Error while logging message! Try later", "danger")
+        except Exception:
+            flash("Error while logging message! Try later", "danger")
             return render_template('contacts.html', title="Contacts", form=form)
         flash('Your message has been sent!', 'success')
         return redirect(url_for('contacts'))
