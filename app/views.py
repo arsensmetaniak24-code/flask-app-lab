@@ -1,5 +1,6 @@
-from flask import render_template, flash
-from . import app
+from flask import render_template, redirect, url_for, flash, request
+from . import app, logger
+from .forms import ContactForm
 
 @app.route('/')
 @app.route('/resume')
@@ -49,6 +50,21 @@ def resume():
         projects=projects,
         avatar='images/icon.png')
 
-@app.route('/contacts')
+@app.route('/contacts', methods=['GET', 'POST'])
 def contacts():
-    return render_template('contacts.html', title = "Contacts")
+
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        try:
+            logger.info(f"Received message from {form.name.data} ({form.email.data}, {form.phone.data}). Subject: '{form.subject.data}'. Message: '{form.message.data}'")
+        except Exception as e:
+            flash(f"Error while logging message! Try later", "danger")
+            return render_template('contacts.html', title="Contacts", form=form)
+        flash('Your message has been sent!', 'success')
+        return redirect(url_for('contacts'))
+
+    if request.method == 'POST':
+        flash("Invalid form submission! Check your input again", "warning")
+
+    return render_template('contacts.html', title="Contacts", form=form)
