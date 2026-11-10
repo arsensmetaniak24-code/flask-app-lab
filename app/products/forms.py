@@ -12,3 +12,7 @@ class ProductForm(FlaskForm):
     quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0)])
     image = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit = SubmitField('Submit')
+
+# no fields: it's only used for the CSRF token on the delete button
+class DeleteForm(FlaskForm):
+    pass

@@ -6,7 +6,7 @@ from flask import request, redirect, url_for, render_template, abort, flash
 from .db import get_products_table
 
 from . import products_bp
-from .forms import ProductForm
+from .forms import ProductForm, DeleteForm
 
 
 @products_bp.route('/')
@@ -18,7 +18,8 @@ def all_products():
 def product_detail(product_id):
     for product in get_all_products():
         if product["id"] == product_id:
-            return render_template("product.html", title="Product", product=product)
+            return render_template("product.html", title="Product", product=product,
+                                   delete_form=DeleteForm())
     abort(404)
 
 @products_bp.route('/add', methods=["GET", "POST"])
@@ -80,6 +81,23 @@ def edit_product(product_id):
 
     return render_template("product_form.html", title="Edit Product", form=form,
                            product={**product, 'id': product_id})
+
+@products_bp.route('/<int:product_id>/delete', methods=["POST"])
+def delete_product(product_id):
+    table = get_products_table()
+    product = table.get(doc_id=product_id)
+    if product is None:
+        abort(404)
+
+    # validate_on_submit() here only checks the CSRF token
+    if not DeleteForm().validate_on_submit():
+        flash("Could not delete the product, try again", "danger")
+        return redirect(url_for("products.product_detail", product_id=product_id))
+
+    delete_image(product.get("image", ""))
+    table.remove(doc_ids=[product_id])
+    flash(f"Product \"{product['name']}\" deleted", "success")
+    return redirect(url_for("products.all_products"))
 
 
 def get_all_products():
