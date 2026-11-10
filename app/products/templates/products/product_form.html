@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% from 'components/_render_field.html' import render_field %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="mb-4">
+        <a href="{{ url_for('products.all_products') }}" class="btn btn-outline-secondary">
+            &larr; Back to products
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title fw-bold mb-4">{{ title }}</h2>
+
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        {{ render_field(form.name, placeholder='Product name') }}
+
+                        <div class="row gx-3">
+                            <div class="col-md-4">
+                                {{ render_field(form.category) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ render_field(form.price, placeholder='0.00') }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ render_field(form.quantity, placeholder='0') }}
+                            </div>
+                        </div>
+
+                        {{ render_field(form.content, placeholder='Describe the product...') }}
+
+                        {% if product and product.image %}
+                            <div class="mb-2">
+                                <span class="form-label fw-semibold d-block">Current image</span>
+                                <img src="{{ url_for('products.static', filename=product.image) }}"
+                                     alt="{{ product.name }}" class="img-thumbnail" style="max-height: 150px;">
+                            </div>
+                        {% endif %}
+
+                        {{ render_field(form.image, accept='.png,.jpg,.jpeg') }}
+                        {% if product and product.image %}
+                            <div class="form-text mt-n2 mb-3">Leave empty to keep the current image.</div>
+                        {% endif %}
+
+                        <div class="d-flex gap-2 pt-2">
+                            <button type="submit" class="btn btn-primary px-4 fw-semibold d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-check-lg"></i> Save
+                            </button>
+                            <a href="{{ url_for('products.all_products') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
