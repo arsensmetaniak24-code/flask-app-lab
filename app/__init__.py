@@ -7,6 +7,7 @@ load_dotenv(Path(__file__).parent.parent / ".flaskenv")
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
+app.config["PRODUCTS_DB"] = Path(__file__).parent.parent / "data/products.json"
 
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler(filename=Path(__file__).parent.parent / "logs/contacts.log", mode="a")
@@ -21,3 +22,7 @@ app.register_blueprint(users_bp)
 
 from .products import products_bp
 app.register_blueprint(products_bp)
+
+from .products.db import seed_products
+with app.app_context():
+    seed_products()
