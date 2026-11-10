@@ -1,32 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container my-5 text-light">
+<div class="container my-4">
     <div class="mb-4">
         <a href="{{ url_for('products.all_products') }}" class="btn btn-outline-secondary">
-            &larr; Назад до списку
+            &larr; Back to products
         </a>
     </div>
 
-    <div class="card bg-secondary text-white border-secondary shadow-lg">
-        <div class="card-header bg-dark text-warning border-secondary d-flex justify-content-between align-items-center">
-            <span class="fs-6 text-uppercase tracking-wide">Продукт #{{ product.id }}</span>
-            <span class="badge bg-warning text-dark fs-6">${{ product.price }}</span>
-        </div>
+    <div class="card border-0 shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-5">
+                {% if product.image %}
+                    <img src="{{ url_for('products.static', filename=product.image) }}"
+                         alt="{{ product.name }}" class="img-fluid w-100 h-100 object-fit-cover rounded-start" style="min-height: 280px;">
+                {% else %}
+                    <div class="bg-body-tertiary d-flex flex-column align-items-center justify-content-center text-body-secondary h-100 rounded-start" style="min-height: 280px;">
+                        <i class="bi bi-image fs-1"></i>
+                        <span class="small">No image</span>
+                    </div>
+                {% endif %}
+            </div>
 
-        <div class="card-body p-4">
-            <h2 class="card-title fw-bold mb-3 display-6">{{ product.name }}</h2>
-            <hr class="border-secondary my-3">
+            <div class="col-md-7">
+                <div class="card-body p-4 d-flex flex-column h-100">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <h2 class="card-title fw-bold mb-0">{{ product.name }}</h2>
+                        <span class="badge text-bg-secondary fs-6">{{ (product.category or 'no category')|capitalize }}</span>
+                    </div>
+                    <span class="small text-body-secondary mb-3">Product #{{ product.id }}</span>
 
-            <h5 class="text-secondary-emphasis mb-2">Опис:</h5>
-            <p class="card-text fs-5 text-light opacity-90 leading-relaxed">
-                {{ product.content }}
-            </p>
-        </div>
+                    <p class="fs-3 fw-semibold text-primary mb-3">${{ "%.2f"|format(product.price) }}</p>
 
-        <div class="card-footer bg-dark border-secondary d-flex justify-content-between align-items-center">
-            <small class="text-muted">Ціна: <strong class="text-warning">${{ product.price }}</strong></small>
-            <button class="btn btn-dark border-secondary px-4">Додати в кошик</button>
+                    <h5 class="fw-semibold mb-2">Description</h5>
+                    <p class="card-text mb-4">{{ product.content }}</p>
+
+                    <ul class="list-unstyled small text-body-secondary mt-auto mb-0">
+                        <li class="mb-1">
+                            <i class="bi bi-box-seam me-1"></i>
+                            {% if product.quantity is defined %}{{ product.quantity }} in stock{% else %}Quantity unknown{% endif %}
+                        </li>
+                        <li>
+                            <i class="bi bi-clock me-1"></i>Added {{ product.created_at|replace('T', ' ') if product.created_at else '—' }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

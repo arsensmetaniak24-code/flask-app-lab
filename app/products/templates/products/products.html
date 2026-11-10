@@ -1,23 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container my-4 text-light">
-    <h2 class="mb-4 text-center text-secondary-emphasis">All Products</h2>
+<div class="container my-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h2 class="mb-0">All Products</h2>
+        <a href="{{ url_for('products.add_product') }}" class="btn btn-primary d-inline-flex align-items-center gap-2">
+            <i class="bi bi-plus-lg"></i> Add product
+        </a>
+    </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if products %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for product in products %}
         <div class="col">
-            <div class="card h-100 bg-secondary text-white border-secondary shadow-sm">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if product.image %}
+                    <img src="{{ url_for('products.static', filename=product.image) }}"
+                         alt="{{ product.name }}" class="card-img-top object-fit-cover" style="height: 200px;">
+                {% else %}
+                    <div class="card-img-top bg-body-tertiary d-flex align-items-center justify-content-center text-body-secondary" style="height: 200px;">
+                        <i class="bi bi-image fs-1"></i>
+                    </div>
+                {% endif %}
+
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold">{{ product.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-warning">${{ product.price }}</h6>
-                    <p class="card-text text-light opacity-75 flex-grow-1">
-                        {{ product.content }}
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                        <h5 class="card-title fw-bold mb-0">{{ product.name }}</h5>
+                        <span class="badge text-bg-secondary">{{ (product.category or 'no category')|capitalize }}</span>
+                    </div>
+
+                    <p class="fs-5 fw-semibold text-primary mb-1">${{ "%.2f"|format(product.price) }}</p>
+                    <p class="small text-body-secondary mb-3">
+                        <i class="bi bi-box-seam me-1"></i>
+                        {% if product.quantity is defined %}{{ product.quantity }} in stock{% else %}quantity unknown{% endif %}
                     </p>
-                    <div class="mt-3">
+
+                    <div class="mt-auto">
+                        <p class="small text-body-secondary mb-2">
+                            <i class="bi bi-clock me-1"></i>Added {{ product.created_at|replace('T', ' ') if product.created_at else '—' }}
+                        </p>
                         <a href="{{ url_for('products.product_detail', product_id=product.id) }}"
-                           class="btn btn-dark w-100 border-secondary">
-                            Детальніше
+                           class="btn btn-outline-primary w-100">
+                            Details
                         </a>
                     </div>
                 </div>
@@ -25,5 +49,11 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="text-center text-body-secondary py-5">
+        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+        No products yet.
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

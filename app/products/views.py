@@ -44,6 +44,43 @@ def add_product():
 
     return render_template("product_form.html", title="Add Product", form=form)
 
+@products_bp.route('/<int:product_id>/edit', methods=["GET", "POST"])
+def edit_product(product_id):
+    table = get_products_table()
+    product = table.get(doc_id=product_id)
+    if product is None:
+        abort(404)
+
+    form = ProductForm(data=product) if request.method == 'GET' else ProductForm()
+
+    if form.validate_on_submit():
+        old_image = product.get("image", "")
+        new_file = form.image.data
+        if new_file and new_file.filename:
+            filepath = save_image(new_file)
+            delete_image(old_image)
+        else:
+            filepath = old_image
+
+        # created_at is not in the dict, so update() keeps the original value
+        changes = {
+            "name": form.name.data,
+            "content": form.content.data,
+            "price": round(float(form.price.data), 2),
+            "category": form.category.data,
+            "quantity": form.quantity.data,
+            "image": filepath
+        }
+        table.update(changes, doc_ids=[product_id])
+        flash("Product updated successfully", "success")
+        return redirect(url_for("products.product_detail", product_id=product_id))
+
+    if request.method == 'POST':
+        flash("Invalid form submission", "warning")
+
+    return render_template("product_form.html", title="Edit Product", form=form,
+                           product={**product, 'id': product_id})
+
 
 def get_all_products():
     products = []
@@ -57,3 +94,7 @@ def save_image(file):
     path = Path(products_bp.static_folder, "uploads", filename)
     file.save(path)
     return f"uploads/{filename}"
+
+def delete_image(filepath):
+    if filepath:
+        Path(products_bp.static_folder, filepath).unlink(missing_ok=True)
