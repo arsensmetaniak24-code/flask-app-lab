@@ -1,29 +1,53 @@
 from dotenv import load_dotenv
-from flask import Flask
 from pathlib import Path
+
+load_dotenv(Path(__file__).parent.parent / ".env")
+
 import logging
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.orm import DeclarativeBase
+from .config import config_map
 
-load_dotenv(Path(__file__).parent.parent / ".flaskenv")
+class Base(DeclarativeBase):
+    pass
 
-app = Flask(__name__)
-app.config.from_prefixed_env()
-app.config["PRODUCTS_DB"] = Path(__file__).parent.parent / "data/products.json"
-app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024 * 2
+db = SQLAlchemy(model_class=Base)
+migrate = Migrate()
 
 logger = logging.getLogger(__name__)
-handler = logging.FileHandler(filename=Path(__file__).parent.parent / "logs/contacts.log", mode="a")
-handler.setFormatter(logging.Formatter("%(asctime)s : %(message)s"))
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
 
-from . import views
+def create_app(config_name="development"):
+    app = Flask(__name__)
+    app.config.from_object(config_map[config_name])
 
-from .users import users_bp
-app.register_blueprint(users_bp)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-from .products import products_bp
-app.register_blueprint(products_bp)
+    if not logger.handlers:
+        handler = logging.FileHandler(filename=Path(__file__).parent.parent / "logs/contacts.log", mode="a")
+        handler.setFormatter(logging.Formatter("%(asctime)s : %(message)s"))
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
 
-from .products.db import seed_products
-with app.app_context():
-    seed_products()
+    from .views import main_bp
+    app.register_blueprint(main_bp)
+
+    from .users import users_bp
+    app.register_blueprint(users_bp)
+
+    from .products import products_bp
+    app.register_blueprint(products_bp)
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return render_template("404.html"), 404
+
+    if not app.config["TESTING"]:
+        with app.app_context():
+            from .products.db import seed_products
+            seed_products()
+
+    return app
+

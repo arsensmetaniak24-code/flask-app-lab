@@ -1,12 +1,13 @@
 import unittest
-from app import app
+
+from app import create_app
 
 
 class FlaskAppTestCase(unittest.TestCase):
 
     def setUp(self):
-        app.config["TESTING"] = True
-        self.client = app.test_client()
+        self.app = create_app("testing")
+        self.client = self.app.test_client()
 
     def test_greetings_page(self):
         response = self.client.get("/users/hi/John?age=30")

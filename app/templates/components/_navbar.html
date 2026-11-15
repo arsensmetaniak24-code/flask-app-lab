@@ -1,27 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('resume') }}">Portfolio</a>
+        <a class="navbar-brand" href="{{ url_for('main.resume') }}">Portfolio</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ url_for('resume') }}" id="resumeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="{{ url_for('main.resume') }}" id="resumeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Resume
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="resumeDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}">All Resume</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}">All Resume</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#about">About Me</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#education">Education</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#skills">Skills</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#technologies">Technologies</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('resume') }}#projects">Projects</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}#about">About Me</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}#education">Education</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}#skills">Skills</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}#technologies">Technologies</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.resume') }}#projects">Projects</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('contacts') }}">Contacts</a>
+                    <a class="nav-link" href="{{ url_for('main.contacts') }}">Contacts</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">

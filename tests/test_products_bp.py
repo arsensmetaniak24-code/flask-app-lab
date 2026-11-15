@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from app import app
+from app import create_app
 from app.products import products_bp
 from app.products.db import get_products_table
 
@@ -11,24 +11,20 @@ from app.products.db import get_products_table
 class ProductsCrudTestCase(unittest.TestCase):
 
     def setUp(self):
-        # temporary db and uploads folder, so the real data/products.json is never touched
         self.tmp = tempfile.TemporaryDirectory()
         tmp_path = Path(self.tmp.name)
         (tmp_path / "static" / "uploads").mkdir(parents=True)
 
-        app.config["TESTING"] = True
-        app.config["WTF_CSRF_ENABLED"] = False
-        self.old_db = app.config["PRODUCTS_DB"]
+        self.app = create_app("testing")
+
         self.old_static = products_bp.static_folder
-        app.config["PRODUCTS_DB"] = tmp_path / "products.json"
+        self.app.config["PRODUCTS_DB"] = tmp_path / "products.json"
         products_bp.static_folder = str(tmp_path / "static")
 
-        self.client = app.test_client()
+        self.client = self.app.test_client()
 
     def tearDown(self):
-        app.config["PRODUCTS_DB"] = self.old_db
         products_bp.static_folder = self.old_static
-        app.config["WTF_CSRF_ENABLED"] = True
         self.tmp.cleanup()
 
     def form_data(self, **changes):
@@ -43,7 +39,7 @@ class ProductsCrudTestCase(unittest.TestCase):
         return data
 
     def get_product(self, product_id):
-        with app.app_context():
+        with self.app.app_context():
             return get_products_table().get(doc_id=product_id)
 
     def test_add_product(self):

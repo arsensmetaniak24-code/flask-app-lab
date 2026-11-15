@@ -1,9 +1,11 @@
-from flask import render_template, redirect, url_for, flash, request
-from . import app, logger
+from flask import render_template, redirect, url_for, flash, request, Blueprint
+from . import logger
 from .forms import ContactForm
 
-@app.route('/')
-@app.route('/resume')
+main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/')
+@main_bp.route('/resume')
 def resume():
 
     education = [
@@ -50,7 +52,7 @@ def resume():
         projects=projects,
         avatar='images/icon.png')
 
-@app.route('/contacts', methods=['GET', 'POST'])
+@main_bp.route('/contacts', methods=['GET', 'POST'])
 def contacts():
 
     form = ContactForm()
@@ -62,7 +64,7 @@ def contacts():
             flash("Error while logging message! Try later", "danger")
             return render_template('contacts.html', title="Contacts", form=form)
         flash('Your message has been sent!', 'success')
-        return redirect(url_for('contacts'))
+        return redirect(url_for('main.contacts'))
 
     if request.method == 'POST':
         flash("Invalid form submission! Check your input again", "warning")
