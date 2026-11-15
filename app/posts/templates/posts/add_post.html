@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% from 'components/_render_field.html' import render_field %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('posts.static', filename='css/posts.css') }}">
+{% endblock %}
+
+{# `post` is only passed by the update route, so it tells create and edit apart #}
+{% set back_url = url_for('posts.detail_post', post_id=post.id) if post else url_for('posts.all_posts') %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="mb-4">
+        <a href="{{ back_url }}" class="btn btn-outline-secondary">
+            &larr; {{ 'Back to post' if post else 'Back to posts' }}
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="posts-heading h3 mb-4">{{ title }}</h1>
+
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        {{ render_field(form.title, placeholder='Post title') }}
+                        {{ render_field(form.content, placeholder='Write your post...') }}
+
+                        <div class="row gx-3">
+                            <div class="col-md-6">
+                                {{ render_field(form.category) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ render_field(form.publish_date) }}
+                            </div>
+                        </div>
+
+                        {{ render_field(form.is_active) }}
+
+                        <div class="d-flex gap-2 pt-2">
+                            {{ form.submit(class_='btn btn-primary px-4 fw-semibold',
+                                           value='Save changes' if post else 'Add Post') }}
+                            <a href="{{ back_url }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
