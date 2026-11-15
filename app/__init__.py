@@ -40,6 +40,9 @@ def create_app(config_name="development"):
     from .products import products_bp
     app.register_blueprint(products_bp)
 
+    from .posts import posts_bp
+    app.register_blueprint(posts_bp)
+
     @app.errorhandler(404)
     def not_found(error):
         return render_template("404.html"), 404
