@@ -1,42 +1,18 @@
-# Lab 6: ORM. Introduction to SQLAlchemy. CRUD operations
+# Lab 7: Relationships. Migrations
 
 ## Screenshots
 
-### Working with the database in Flask Shell
-![Working with the database in Flask Shell](.github/assets/lab6/task2_shell.png)
+### `upgrade` fails: foreign key constraint has no name
+![upgrade fails: foreign key constraint has no name](.github/assets/lab7/constraint_name_error.png)
 
-### Initialising migrations
-![Initialising migrations](.github/assets/lab6/task3_init.png)
+### `downgrade` fails: dropped constraint has no name
+![downgrade fails: dropped constraint has no name](.github/assets/lab7/constraint_name_downgrade_error.png)
 
-### Migrations folder
-![Migrations folder](.github/assets/lab6/task3_migrations_folder.png)
+### Adding a NOT NULL column without a server default
+![Adding a NOT NULL column without a server default](.github/assets/lab7/default-not-null-error.png)
 
-### Initial migration
-![Initial migration](.github/assets/lab6/task3_migration1.png)
+### Final data in `products` and `categories`
+![Final data in products and categories](.github/assets/lab7/final_data.png)
 
-### Database schema after the initial migration
-![Database schema after the initial migration](.github/assets/lab6/task3_migration1_dbscheme.png)
-
-### Migration adding `is_active` and `author`
-![Migration adding is_active and author](.github/assets/lab6/task3_migration2.png)
-
-### Database schema after the second migration
-![Database schema after the second migration](.github/assets/lab6/task3_migration2_dbscheme.png)
-
-### All posts
-![All posts](.github/assets/lab6/post_read_all.png)
-
-### Post page
-![Post page](.github/assets/lab6/post_read.png)
-
-### Creating a post
-![Creating a post](.github/assets/lab6/post_create.png)
-
-### Delete confirmation
-![Delete confirmation](.github/assets/lab6/post_delete_confirm.png)
-
-### Posts on the site and in the database
-![Posts on the site and in the database](.github/assets/lab6/post_view_vs_database.png)
-
-### Tests completion
-![Tests completion](.github/assets/lab6/tests.png)
+### Migration history
+![Migration history](.github/assets/lab7/migration_history.png)
