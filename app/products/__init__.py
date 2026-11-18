@@ -9,3 +9,4 @@ products_bp = Blueprint(
 )
 
 from . import views
+from . import models
