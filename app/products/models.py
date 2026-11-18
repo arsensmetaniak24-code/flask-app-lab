@@ -1,3 +1,7 @@
+from datetime import datetime
+from sqlalchemy import DateTime
+import sqlalchemy as sa
+
 from sqlalchemy import Integer, String, Float, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app import db
@@ -11,6 +15,10 @@ class Product(db.Model):
     category_id: Mapped[int | None] = mapped_column(db.ForeignKey("categories.id"))
     category: Mapped["Category"] = relationship("Category", back_populates="products")
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=sa.text("CURRENT_TIMESTAMP"))
 
     def __repr__(self) -> str:
         return f"<Product {self.name} - {self.price}$>"
